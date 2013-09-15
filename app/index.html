@@ -1,0 +1,148 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Cortado \=/ CoffeeScript cut with Markdown</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <!-- build:css({.tmp,app}) styles/main.css -->
+    <!-- <link rel="stylesheet" href="bower_components/bootstrap-sass/bootstrap-2.3.2.min.css"> -->
+    <link rel="stylesheet" href="styles/boilerplate.css">
+    <link rel="stylesheet" href="styles/normalize.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/split-panel.css">
+    <!-- <link rel="stylesheet" href="styles/gprettify/solarized-dark.css"> -->
+    <!-- <link rel="stylesheet" href="styles/prettify.css"> -->
+
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
+    <!-- endbuild -->
+
+    <script>
+    window.onbeforeunload = function(){ return 'Unloading this page will cause the editor content to be lost :(' }
+    </script>
+</head>
+<body>
+  <!--[if lt IE 7]>
+    <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+  <![endif]-->
+
+  <!--[if lt IE 9]>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.min.js"></script>
+  <![endif]-->
+
+
+  <div class="container" ng-app="cortadoApp" ng-controller="cortadoCtrl">
+
+    <div id="header">
+      <div class="menu header-menu">
+        <span class="brand menu-title">Cortado \=/</span>
+        <div class="menu-items"><code class="menu-item">coffeescript cut with markdown</code></div>
+      </div>
+
+      <div id="view-menu" class="menu header-menu">
+        <span class="menu-title">View ▾</span>
+        <ul class="menu-items">
+          <li class="menu-item" ng-repeat="col in cols" ng-class="{active_col:col.show}" ng-click="col.show=!col.show">{{col.name}}</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="position: relative; height:100%;width:100%;">
+    <split-row ng-cloak>
+
+      <resizable-panel id="md_col" name="Code Editor" show="show">
+        <div class="menu panel-menu" ng-class="{show:$parent.col('Code Editor').mouseover}">
+          <span class="menu-title">Theme ▾</span><ul class="menu-items">
+            <li class="menu-item" ng-repeat="theme in $parent.themes" ng-click="$parent.setTheme(theme)">{{theme}}</li>
+          </ul><span class="hide-button" ng-click="$parent.col('Code Editor').show=false" title="Hide Code Editor panel.">X</span>
+        </div>
+        <div ace-editor mode="markdown" ng-model="$parent.$parent.litcoffee"></div>
+      </resizable-panel>
+
+      <resizable-panel id="css_col" name="Theme Editor">
+        <div class="menu panel-menu" ng-class="{show:$parent.col('Theme Editor').mouseover}">
+          <span class="menu-title">Theme ▾</span><ul class="menu-items">
+            <li class="menu-item" ng-repeat="theme in $parent.themes" ng-click="$parent.setTheme(theme)">{{theme}}</li>
+          </ul><span class="hide-button" ng-click="$parent.col('Theme Editor').show=false" title="Hide Theme editor panel.">X</span>
+        </div>
+        <div ace-editor mode="css" ng-model="style.sheets[style.active].css"></div>
+      </resizable-panel>
+
+      <resizable-panel id="html_col" name="Ouput HTML">
+        <div class="menu panel-menu" ng-class="{show:$parent.col('Ouput HTML').mouseover}">
+          <span class="menu-title">Theme ▾</span><ul class="menu-items">
+            <li class="menu-item" ng-repeat="theme in $parent.theme.list" ng-click="$parent.theme.selected=theme">{{theme}}</li>
+          </ul><span class="hide-button" ng-click="$parent.col('Ouput HTML').show=false" title="Hide Ouput HTML panel.">X</span>
+        </div>
+        <style type="text/css" ng-bind="theme.css | scopeCSS:'#html_div'"></style>
+        <div id="html_div" style="height: 100%;">
+          <div pretty-print-panel="$parent.$parent.litcoffee" ></div>
+        </div>
+      </resizable-panel>
+
+      <resizable-panel id="render_col" name="Rendered Output" show="show">
+        <div class="menu panel-menu" ng-class="{show:$parent.col('Rendered Output').mouseover}">
+          <span class="menu-title">Theme ▾</span><ul class="menu-items">
+            <li class="menu-item" ng-repeat="(style, props) in style.sheets" ng-click="$parent.style.active=style" ng-class="{active_style:$parent.style.active==style}">{{style}}
+              <ul class="menu-actions">
+                <li class="icon-trash" ng-click="!props.native && delete_style($event, style)" ng-class="{inactive:props.native}" title="Delete styles"></li>
+                <li class="icon-copy" ng-click="copy_style($event, style)" title="Duplicate styles"></li>
+                <li class="icon-save" ng-show="false" title="Save styles"></li>
+              </ul>
+            </li>
+            <li class="menu-item" ng-click="select_ext($event)" ng-class="{active_style:style.active=='external'}">
+              <label for="external-css">External: </label>
+              <input id="styles_external" ng-model="style.external"  ng-keydown="keydown_input($event)" type="text" name="external-css" id="external-css" placeholder="http://">
+            </li>
+          </ul><span class="hide-button" ng-click="$parent.col('Rendered Output').show=false" title="Hide Rendered Output panel.">X</span>
+        </div>
+        <style type="text/css" ng-bind="style.sheets[style.active].css | scopeCSS:'#disp_div'"></style>
+        <div id="disp_div">
+          <div id="disp_div_inner" render-panel="$parent.$parent.$parent.litcoffee"></div>
+        </div>
+      </resizable-panel>
+
+    </split-row>
+    </div>
+  </div>
+
+  <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+  <script>
+    var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src='//www.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+  </script>
+
+  <script src="bower_components/jquery/jquery.min.js"></script>
+  <script src="bower_components/angular/angular.min.js"></script>
+
+  <!-- build:js scripts/plugins.js -->
+  <script src="bower_components/ace-builds/src-min-noconflict/ace.js"></script>
+  <script src="bower_components/underscore/underscore-min.js"></script>
+  <script src="bower_components/markdown-js/lib/markdown.js"></script>
+  <!-- endbuild -->
+
+  <!-- build:js scripts/modules.js -->
+  <script src="bower_components/angular-resource/angular-resource.js"></script>
+  <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+  <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+  <script src="scripts/app.js"></script>
+  <script src="scripts/directives/editor.js"></script>
+  <script src="scripts/controllers/cortadoCtrl.js"></script>
+  <script src="scripts/directives/split-panel.js"></script>
+  <script src="scripts/directives/render_panel.js"></script>
+  <script src="scripts/filters/code_filters.js"></script>
+
+  <script src="scripts/prettify.js"></script>
+  <!-- endbuild -->
+</body>
+</html>

@@ -1,0 +1,36 @@
+
+@mixin no-select
+  -webkit-touch-callout: none
+  -webkit-user-select: none
+  -khtml-user-select: none
+  -moz-user-select: moz-none
+  -ms-user-select: none
+  user-select: none
+
+@mixin transition($args)
+  -moz-transition: $args
+  -webkit-transition: $args
+  -o-transition: $args
+  transition: $args
+
+@mixin border-box
+  -moz-box-sizing: border-box
+  -webkit-box-sizing: border-box
+  box-sizing: border-box
+
+
+@mixin box-shaddow($args)
+  -webkit-box-shadow: $args
+  -moz-box-shadow: $args
+  box-shadow: $args
+
+
+@mixin tri-gradient($c1, $p1, $c2, $p2, $c3, $p3)
+  background: $c1 /* Old browsers */
+  background: -moz-linear-gradient(top,  $c1 $p1, $c2 $p2, $c3 $p3) /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop($p1, $c1), color-stop($p2, $c2), color-stop($p3, $c3)) /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  $c1 $p1, $c2 $p2, $c3 $p3) /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  $c1 $p1, $c2 $p2, $c3 $p3) /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  $c1 $p1, $c2 $p2, $c3 $p3) /* IE10+ */
+  background: linear-gradient(to bottom,  $c1 $p1, $c2 $p2, $c3 $p3) /* W3C */
+
