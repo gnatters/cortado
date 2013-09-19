@@ -1,0 +1,14 @@
+{
+  "name": "markdown-js",
+  "homepage": "https://github.com/gnatters/markdown-js",
+  "version": "0.4.3",
+  "_release": "0.4.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.4.3",
+    "commit": "27773e1f8112393e5ede6e81d58110b90227c228"
+  },
+  "_source": "git://github.com/gnatters/markdown-js.git",
+  "_target": "0.4.3",
+  "_originalSource": "git://github.com/gnatters/markdown-js.git"
+}
