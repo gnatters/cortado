@@ -12,16 +12,11 @@
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
     <!-- build:css({.tmp,app}) styles/main.css -->
-    <!-- <link rel="stylesheet" href="bower_components/bootstrap-sass/bootstrap-2.3.2.min.css"> -->
     <link rel="stylesheet" href="styles/boilerplate.css">
     <link rel="stylesheet" href="styles/normalize.css">
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/split-panel.css">
-    <!-- <link rel="stylesheet" href="styles/gprettify/solarized-dark.css"> -->
-    <!-- <link rel="stylesheet" href="styles/prettify.css"> -->
-
     <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-
     <!-- endbuild -->
 
     <script>
@@ -122,27 +117,25 @@
     s.parentNode.insertBefore(g,s)}(document,'script'));
   </script>
 
+  <!-- build:js({.tmp,app}) scripts/plugins.js -->
   <script src="bower_components/jquery/jquery.min.js"></script>
   <script src="bower_components/angular/angular.min.js"></script>
-
-  <!-- build:js scripts/plugins.js -->
-  <script src="bower_components/ace-builds/src-min-noconflict/ace.js"></script>
   <script src="bower_components/lodash/dist/lodash.min.js"></script>
   <script src="bower_components/markdown-js/lib/markdown.js"></script>
-  <!-- endbuild -->
-
-  <!-- build:js scripts/modules.js -->
   <script src="bower_components/angular-resource/angular-resource.js"></script>
   <script src="bower_components/angular-cookies/angular-cookies.js"></script>
   <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+  <script src="bower_components/google-code-prettify/src/prettify.js"></script>
+  <!-- endbuild -->
+  <script src="bower_components/ace-builds/src-min-noconflict/ace.js"></script>
+
+  <!-- build:js({.tmp,app}) scripts/modules.js -->
   <script src="scripts/app.js"></script>
   <script src="scripts/directives/editor.js"></script>
   <script src="scripts/controllers/cortadoCtrl.js"></script>
   <script src="scripts/directives/split-panel.js"></script>
   <script src="scripts/directives/render_panel.js"></script>
   <script src="scripts/filters/code_filters.js"></script>
-
-  <script src="scripts/prettify.js"></script>
   <!-- endbuild -->
 </body>
 </html>
