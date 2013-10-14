@@ -10,7 +10,7 @@
     "angular-resource": "~1.0.7",
     "angular-cookies": "~1.0.7",
     "angular-sanitize": "~1.0.7",
-    "markdown-js": "git://github.com/gnatters/markdown-js.git#0.4.3",
+    "markdown-js": "git://github.com/nat-n/markdown-js.git#0.4.3",
     "ace-builds": "~1.1.1",
     "google-code-prettify": "~1.0.0"
   },
